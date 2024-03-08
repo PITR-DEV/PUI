@@ -68,6 +68,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 width: 400,
                 child: TextField(
                   expands: false,
+                  decoration: InputDecoration(
+                    labelText: 'TextField',
+                  ),
                 ),
               ),
             ],

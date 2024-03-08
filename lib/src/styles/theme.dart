@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 // extension
 extension ThemePUI on ThemeData {
-  ThemeData applyPUI() {
+  ThemeData applyPUI({
+    TargetPlatform? overrideThemePlatform = TargetPlatform.windows,
+  }) {
     final genericTextColor = colorScheme.onSurface;
 
     return copyWith(
       colorScheme: colorScheme,
-      platform: TargetPlatform.windows,
-      textTheme: TextTheme(
+      platform: overrideThemePlatform,
+      textTheme: textTheme.copyWith(
         headlineSmall: TextStyle(
           color: genericTextColor,
           fontWeight: FontWeight.w500,
@@ -40,7 +42,7 @@ extension ThemePUI on ThemeData {
           fontSize: 48,
         ),
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: inputDecorationTheme.copyWith(
         filled: true,
         fillColor: colorScheme.shadow.withOpacity(0.2),
         border: const OutlineInputBorder(),
@@ -54,7 +56,7 @@ extension ThemePUI on ThemeData {
           fontWeight: FontWeight.w400,
         ),
       ),
-      dialogTheme: DialogTheme(
+      dialogTheme: dialogTheme.copyWith(
         backgroundColor: colorScheme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -73,7 +75,7 @@ extension ThemePUI on ThemeData {
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
-        style: ButtonStyle(
+        style: (filledButtonTheme.style ?? const ButtonStyle()).copyWith(
           shape: MaterialStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
@@ -87,7 +89,7 @@ extension ThemePUI on ThemeData {
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
+        style: (outlinedButtonTheme.style ?? const ButtonStyle()).copyWith(
           shape: MaterialStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
