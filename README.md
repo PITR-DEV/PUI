@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/logo.png?raw=true"
-    alt="An animated image of the iOS in-app purchase UI" width="240"/>
+    alt="PUI Logo" width="240"/>
 </p>
 
 A minimal **Material 3**-based theme and components for Flutter, developed by [PITR](https://pitr.dev/).
@@ -14,7 +14,7 @@ A minimal **Material 3**-based theme and components for Flutter, developed by [P
 ## Examples
 
 <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/pui_demo.gif?raw=true"
-    alt="An animated image of the iOS in-app purchase UI"/>
+    alt="PUI gallery app gif"/>
 
 | PUI Themed                                                                                | Stock Material 3                                                                            |
 | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
