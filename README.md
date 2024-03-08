@@ -1,7 +1,7 @@
-<center>
+<p align="center">
 <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/logo.png?raw=true"
     alt="An animated image of the iOS in-app purchase UI" width="240"/>
-</center>
+</p>
 
 A minimal **Material 3**-based theme and components for Flutter, developed by [PITR](https://pitr.dev/).
 
@@ -16,7 +16,7 @@ A minimal **Material 3**-based theme and components for Flutter, developed by [P
 <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/pui_demo.gif?raw=true"
     alt="An animated image of the iOS in-app purchase UI"/>
 
-| PUI Themed                                                                       | Stock Material 3                                                                   |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/home_pui.png" />         | <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/home_stock.png" />         |
-| <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/alert_dialog_pui.png" /> | <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/alert_dialog_stock.png" /> |
+| PUI Themed                                                                                | Stock Material 3                                                                            |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/home_pui.png?raw=true" />         | <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/home_stock.png?raw=true" />         |
+| <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/alert_dialog_pui.png?raw=true" /> | <img src="https://github.com/PITR-DEV/PUI/blob/main/doc/alert_dialog_stock.png?raw=true" /> |
