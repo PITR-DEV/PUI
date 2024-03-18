@@ -155,16 +155,16 @@ class _HomePageState extends ConsumerState<HomePage> {
           ListTile(
             title: const Text('Elevation'),
             subtitle: SliderTheme(
-              data: const SliderThemeData(
+              data: SliderTheme.of(context).copyWith(
                 showValueIndicator: ShowValueIndicator.always,
               ),
               child: Row(
                 children: [
                   Slider(
                     value: ref.watch(providerContentBoxElevation),
-                    min: -10,
+                    min: -5,
                     max: 5,
-                    divisions: 15,
+                    divisions: 10,
                     label: ref
                         .watch(providerContentBoxElevation)
                         .floor()

@@ -38,10 +38,16 @@ class ContentBox extends StatelessWidget {
       outlineColor = outlineColor.withOpacity(
         outlineColor.opacity * 0.5,
       );
+    } else if (elevation == 0) {
+      outlineColor = colorScheme.outline.withOpacity(0.3);
     }
 
+    final resultElevation = isNegativeElevation
+        ? min(5.0, max(0.0, 5 - absolutionElevation))
+        : absolutionElevation;
+
     return Card(
-      elevation: elevation.abs(),
+      elevation: resultElevation,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(

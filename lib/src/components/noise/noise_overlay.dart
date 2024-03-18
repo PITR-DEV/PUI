@@ -3,35 +3,47 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class NoiseOverlay extends StatelessWidget {
-  const NoiseOverlay({Key? key}) : super(key: key);
+  const NoiseOverlay({
+    this.opacity = 0.025,
+    this.colored = true,
+    this.scale = 1,
+    Key? key,
+  }) : super(key: key);
+  final double opacity;
+  final bool colored;
+  final double scale;
 
   @override
   Widget build(BuildContext context) {
+    final isCleanScale = scale % 1 == 0;
+
     return BackdropFilter(
       filter: ui.ImageFilter.compose(
         outer: ui.ImageFilter.blur(
-            sigmaX: 0.0, sigmaY: 0.0), // No blur, adjust if desired
+          sigmaX: 0.0,
+          sigmaY: 0.0,
+        ),
         inner: ui.ImageFilter.matrix(
-          Matrix4.diagonal3Values(1.0, 1.0, 1.0)
-              .storage, // Identity matrix, no transformation
+          Matrix4.diagonal3Values(1.0, 1.0, 1.0).storage,
           filterQuality: FilterQuality.high,
         ),
       ),
       child: Container(
         decoration: BoxDecoration(
-          // Overlay noise texture with additive blending
           image: DecorationImage(
             image: AssetImage(
-              'packages/pui/assets/noise/noise_4096_colored.png',
-            ), // Path to your noise texture
+              'packages/pui/assets/noise/noise_256_${colored ? 'colored' : 'monochrome'}.webp',
+            ),
+            scale: 1 / scale,
+            filterQuality:
+                isCleanScale ? ui.FilterQuality.none : ui.FilterQuality.high,
             fit: BoxFit.none,
             alignment: Alignment.topLeft,
             repeat: ImageRepeat.repeat,
             colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.025),
+              Colors.white.withOpacity(opacity),
               BlendMode.modulate,
             ),
-            // opacity: 0.125,
           ),
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:example/providers/noise.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pui/pui.dart';
 
 class NoisePage extends ConsumerStatefulWidget {
@@ -29,14 +30,9 @@ class _NoisePageState extends ConsumerState<NoisePage> {
           Padding(
             padding: const EdgeInsets.all(6),
             child: Text(
-              'Noise',
+              'Noise Overlay',
               style: Theme.of(context).textTheme.displayMedium,
             ),
-          ),
-          const Gap(16),
-          Text(
-            'Global Noise Overlay',
-            style: Theme.of(context).textTheme.headlineSmall,
           ),
           ListTile(
             leading: Switch(
@@ -46,10 +42,106 @@ class _NoisePageState extends ConsumerState<NoisePage> {
               },
             ),
           ),
-          divide,
+          const Gap(4),
           Text(
-            'Noise Box (inside of content box)',
+            'Colored',
             style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          ListTile(
+            leading: Switch(
+              value: ref.watch(providerGlobalNoiseColored),
+              onChanged: (value) {
+                ref.read(providerGlobalNoiseColored.notifier).state = value;
+              },
+            ),
+          ),
+          ListTile(
+            title: const Text('Opacity'),
+            subtitle: SliderTheme(
+              data: const SliderThemeData(
+                showValueIndicator: ShowValueIndicator.always,
+              ),
+              child: Row(
+                children: [
+                  Slider(
+                    value: ref.watch(providerGlobalNoiseOpacity),
+                    min: 0,
+                    max: 0.3,
+                    label: ref
+                        .watch(providerGlobalNoiseOpacity)
+                        .toStringAsFixed(3),
+                    onChanged: (value) => ref
+                        .read(providerGlobalNoiseOpacity.notifier)
+                        .state = value,
+                  ),
+                  if (ref.watch(providerGlobalNoiseOpacity) != 0.03)
+                    IconButton(
+                      tooltip: 'Restore Default',
+                      onPressed: () {
+                        ref.read(providerGlobalNoiseOpacity.notifier).state =
+                            0.03;
+                      },
+                      icon: const Icon(
+                        Symbols.refresh,
+                      ),
+                    )
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            title: RichText(
+              text: TextSpan(
+                text: 'Scale',
+                children: [
+                  if (ref.watch(providerGlobalNoiseScale) % 1 != 0)
+                    TextSpan(
+                      text: ' (filtered)',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            subtitle: SliderTheme(
+              data: const SliderThemeData(
+                showValueIndicator: ShowValueIndicator.always,
+              ),
+              child: Row(
+                children: [
+                  Slider(
+                    value: ref.watch(providerGlobalNoiseScale),
+                    min: 0.25,
+                    max: 2,
+                    divisions: 7,
+                    label:
+                        ref.watch(providerGlobalNoiseScale).toStringAsFixed(2),
+                    onChanged: (value) => ref
+                        .read(providerGlobalNoiseScale.notifier)
+                        .state = value,
+                  ),
+                  if (ref.watch(providerGlobalNoiseScale) != 1)
+                    IconButton(
+                      tooltip: 'Restore Default',
+                      onPressed: () {
+                        ref.read(providerGlobalNoiseScale.notifier).state = 1;
+                      },
+                      icon: const Icon(
+                        Symbols.refresh,
+                      ),
+                    )
+                ],
+              ),
+            ),
+          ),
+          divide,
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Text(
+              'Noise Box',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
           ),
           ListTile(
             title: const Text('Width'),

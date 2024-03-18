@@ -6,40 +6,36 @@ extension ThemePUI on ThemeData {
     TargetPlatform? overrideThemePlatform = TargetPlatform.windows,
   }) {
     final genericTextColor = colorScheme.onSurface;
+    final genericTextStyle = TextStyle(
+      color: genericTextColor,
+      fontFamily: 'packages/pui/Albert Sans',
+      fontWeight: FontWeight.w500,
+    );
 
     return copyWith(
       colorScheme: colorScheme,
       platform: overrideThemePlatform,
       textTheme: textTheme.copyWith(
-        headlineSmall: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        headlineSmall: genericTextStyle.copyWith(
           fontSize: 16,
         ),
-        headlineMedium: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        headlineMedium: genericTextStyle.copyWith(
           fontSize: 20,
         ),
-        headlineLarge: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        headlineLarge: genericTextStyle.copyWith(
           fontSize: 24,
         ),
-        displaySmall: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        displaySmall: genericTextStyle.copyWith(
           fontSize: 19,
+          fontWeight: FontWeight.w600,
         ),
-        displayMedium: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        displayMedium: genericTextStyle.copyWith(
           fontSize: 36,
+          fontWeight: FontWeight.w600,
         ),
-        displayLarge: TextStyle(
-          color: genericTextColor,
-          fontWeight: FontWeight.w500,
+        displayLarge: genericTextStyle.copyWith(
           fontSize: 48,
+          fontWeight: FontWeight.w600,
         ),
       ),
       inputDecorationTheme: inputDecorationTheme.copyWith(
@@ -54,6 +50,11 @@ extension ThemePUI on ThemeData {
         hintStyle: TextStyle(
           color: colorScheme.onBackground.withOpacity(0.35),
           fontWeight: FontWeight.w400,
+        ),
+        labelStyle: genericTextStyle.copyWith(
+          color: colorScheme.onBackground.withOpacity(0.9),
+          fontWeight: FontWeight.w100,
+          fontSize: 15,
         ),
       ),
       dialogTheme: dialogTheme.copyWith(
@@ -104,6 +105,21 @@ extension ThemePUI on ThemeData {
             colorScheme.onSecondaryContainer,
           ),
         ),
+      ),
+      appBarTheme: appBarTheme.copyWith(
+        backgroundColor: colorScheme.background,
+        foregroundColor: colorScheme.onBackground,
+        titleTextStyle: genericTextStyle.copyWith(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+        iconTheme: iconTheme.copyWith(
+          color: colorScheme.onBackground,
+        ),
+      ),
+      sliderTheme: sliderTheme.copyWith(
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+        trackHeight: 5,
       ),
     );
   }

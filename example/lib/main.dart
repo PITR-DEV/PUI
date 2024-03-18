@@ -36,8 +36,12 @@ class ExampleApp extends ConsumerWidget {
           children: [
             if (child != null) child,
             if (ref.watch(providerGlobalNoiseEnabled) && puiEnabled)
-              const IgnorePointer(
-                child: NoiseOverlay(),
+              IgnorePointer(
+                child: NoiseOverlay(
+                  opacity: ref.watch(providerGlobalNoiseOpacity),
+                  colored: ref.watch(providerGlobalNoiseColored),
+                  scale: ref.watch(providerGlobalNoiseScale),
+                ),
               ),
           ],
         );
