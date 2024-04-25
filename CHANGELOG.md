@@ -1,3 +1,11 @@
+## 0.0.4
+
+* Add `VariableEditor<T>` widget
+* Add `Spinner` and `Ticker` indicator widgets
+* Add `ExceptionDialog`, `ListEditDialog<T>` and `TextEditDialog` dialog widgets
+* Add PUI theme for `TextButton`
+* Misc. fixes and improvements
+
 ## 0.0.3
 
 * Change font to Albert Sans

@@ -7,6 +7,8 @@ import 'package:layout/layout.dart';
 import 'package:pui/pui.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     const ProviderScope(
       child: Layout(
@@ -36,12 +38,10 @@ class ExampleApp extends ConsumerWidget {
           children: [
             if (child != null) child,
             if (ref.watch(providerGlobalNoiseEnabled) && puiEnabled)
-              IgnorePointer(
-                child: NoiseOverlay(
-                  opacity: ref.watch(providerGlobalNoiseOpacity),
-                  colored: ref.watch(providerGlobalNoiseColored),
-                  scale: ref.watch(providerGlobalNoiseScale),
-                ),
+              NoiseOverlay(
+                opacity: ref.watch(providerGlobalNoiseOpacity),
+                colored: ref.watch(providerGlobalNoiseColored),
+                scale: ref.watch(providerGlobalNoiseScale),
               ),
           ],
         );

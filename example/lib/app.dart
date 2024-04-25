@@ -31,7 +31,11 @@ class _AppPageState extends ConsumerState<AppPage> {
       routerState: widget.state,
       routes: widget.navigationTabs,
       appBar: AppBar(
-        title: const Text('PUI Gallery'),
+        title: const Text.rich(
+          TextSpan(
+            text: 'PUI Gallery',
+          ),
+        ),
         actions: [
           const Text('PUI Theme'),
           const Gap(4),

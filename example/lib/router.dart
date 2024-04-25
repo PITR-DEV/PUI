@@ -1,4 +1,6 @@
 import 'package:example/app.dart';
+import 'package:example/pages/components.dart';
+import 'package:example/pages/dialogs.dart';
 import 'package:example/pages/hidden.dart';
 import 'package:example/pages/home.dart';
 import 'package:example/pages/navigation.dart';
@@ -16,6 +18,18 @@ List<NavigationTab> get navigationTabs => [
         icon: Symbols.home,
         label: 'Home',
         routeStart: '/',
+        exact: true,
+      ),
+      NavigationTab(
+        icon: Symbols.widgets,
+        label: 'Components',
+        routeStart: '/components',
+        exact: true,
+      ),
+      NavigationTab(
+        icon: Symbols.dialogs,
+        label: 'Dialogs',
+        routeStart: '/dialogs',
         exact: true,
       ),
       NavigationTab(
@@ -54,6 +68,14 @@ List<RouteBase> get subRoutes => [
       GoRoute(
         path: '/',
         builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: '/components',
+        builder: (context, state) => const ComponentsPage(),
+      ),
+      GoRoute(
+        path: '/dialogs',
+        builder: (context, state) => const DialogsPage(),
       ),
       GoRoute(
         path: '/navigation',

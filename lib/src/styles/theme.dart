@@ -75,13 +75,27 @@ extension ThemePUI on ThemeData {
           fontWeight: FontWeight.w400,
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: (filledButtonTheme.style ?? const ButtonStyle()).copyWith(
+          shape: MaterialStatePropertyAll<OutlinedBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+              side: BorderSide(
+                color: colorScheme.outline.withOpacity(0.2),
+                strokeAlign: -1,
+                width: 1,
+              ),
+            ),
+          ),
+        ),
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: (filledButtonTheme.style ?? const ButtonStyle()).copyWith(
           shape: MaterialStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
               side: BorderSide(
-                color: colorScheme.secondary.withOpacity(0.7),
+                color: colorScheme.secondary.withOpacity(0.4),
                 strokeAlign: -1,
                 width: 1,
               ),
@@ -120,6 +134,7 @@ extension ThemePUI on ThemeData {
       sliderTheme: sliderTheme.copyWith(
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         trackHeight: 5,
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
       ),
     );
   }
