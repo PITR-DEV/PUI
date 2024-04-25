@@ -2,7 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class NumEditor extends StatefulWidget {
+class NumEditor<T extends num> extends StatefulWidget {
   const NumEditor({
     required this.value,
     this.onChanged,
@@ -10,16 +10,16 @@ class NumEditor extends StatefulWidget {
     this.decimalPlaces = 2,
     super.key,
   });
-  final num value;
-  final Function(num)? onChanged;
+  final T value;
+  final ValueChanged<T>? onChanged;
   final num sensitivityMultiplier;
   final int decimalPlaces;
 
   @override
-  createState() => _NumEditorState();
+  createState() => _NumEditorState<T>();
 }
 
-class _NumEditorState extends State<NumEditor> {
+class _NumEditorState<T extends num> extends State<NumEditor<T>> {
   late final TextEditingController _controller;
 
   bool _pressedDown = false;
@@ -42,7 +42,7 @@ class _NumEditorState extends State<NumEditor> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final typeColor = getTypeColor(widget.value.runtimeType);
+    final typeColor = getTypeColor();
     final backgroundColor = HSLColor.fromColor(typeColor)
         .withLightness(_pressedDown ? 0.3 : 0.2)
         .toColor()
@@ -50,12 +50,12 @@ class _NumEditorState extends State<NumEditor> {
         .withOpacity(_pressedDown ? 1 : 0.75);
     final foregroundColor = typeColor.harmonizeWith(colorScheme.primary);
 
-    final typeLetter = getTypeLetter(widget.value.runtimeType);
+    final typeLetter = getTypeLetter();
     var displayValue = _pendingRawDelta == null
         ? widget.value
         : computeValue(widget.value, _pendingRawDelta!);
 
-    var displayText = widget.value is double
+    var displayText = T is double
         ? displayValue.toStringAsFixed(widget.decimalPlaces)
         : displayValue.toString();
 
@@ -85,7 +85,7 @@ class _NumEditorState extends State<NumEditor> {
                 final newValue = computeValue(widget.value, _pendingRawDelta!);
 
                 if (widget.value != newValue) {
-                  widget.onChanged!(newValue);
+                  widget.onChanged!(newValue as T);
                 }
               }
 
@@ -141,7 +141,7 @@ class _NumEditorState extends State<NumEditor> {
               final newValue = num.tryParse(value);
 
               if (newValue != null) {
-                widget.onChanged!(newValue);
+                widget.onChanged!(newValue as T);
                 if (_isInvalid) {
                   setState(() {
                     _isInvalid = false;
@@ -156,11 +156,11 @@ class _NumEditorState extends State<NumEditor> {
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               isDense: true,
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal: 8,
                 vertical: 6,
               ),
-              error: _isInvalid ? SizedBox() : null,
+              error: _isInvalid ? const SizedBox() : null,
             ),
             style: TextStyle(
               fontFamily: 'packages/pui/JetBrains Mono',
@@ -177,22 +177,22 @@ class _NumEditorState extends State<NumEditor> {
   num computeValue(num value, double rawDelta) {
     final delta = rawDelta * widget.sensitivityMultiplier;
 
-    if (value is int) {
+    if (T == int) {
       return (value + delta).round();
     }
 
     return (value + delta).toDouble();
   }
 
-  Color getTypeColor(Type type) {
-    if (type == int) return Colors.blue;
-    if (type == double) return const Color.fromARGB(255, 93, 214, 140);
+  Color getTypeColor() {
+    if (T == int) return Colors.blue;
+    if (T == double) return const Color.fromARGB(255, 93, 214, 140);
     return Colors.black;
   }
 
-  String getTypeLetter(Type type) {
-    if (type == int) return 'i';
-    if (type == double) return 'f';
+  String getTypeLetter() {
+    if (T == int) return 'i';
+    if (T == double) return 'f';
     return 'N';
   }
 }

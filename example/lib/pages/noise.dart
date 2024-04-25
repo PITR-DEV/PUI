@@ -102,6 +102,7 @@ class _NoisePageState extends ConsumerState<NoisePage> {
                       ),
                     ),
                 ],
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
             subtitle: SliderTheme(

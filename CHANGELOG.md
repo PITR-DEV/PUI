@@ -1,3 +1,6 @@
+## 0.0.5
+* Fixes for Flutter web
+
 ## 0.0.4
 
 * Add `VariableEditor<T>` widget

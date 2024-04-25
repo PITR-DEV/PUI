@@ -10,14 +10,19 @@ class VariableEditor<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (value is String) {
+    if (T == String) {
       return StringEditor(
           value: value as String,
           onChanged: onChanged as ValueChanged<String>?);
     }
-    if (value is num) {
-      return NumEditor(
-          value: value as num, onChanged: onChanged as ValueChanged<num>?);
+    if (T == int) {
+      return NumEditor<int>(
+          value: value as int, onChanged: onChanged as ValueChanged<int>?);
+    }
+    if (T == double) {
+      return NumEditor<double>(
+          value: value as double,
+          onChanged: onChanged as ValueChanged<double>?);
     }
 
     return fallback();

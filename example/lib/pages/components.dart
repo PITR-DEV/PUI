@@ -224,7 +224,7 @@ class _ComponentsPageState extends ConsumerState<ComponentsPage> {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const Gap(4),
-                    VariableEditor(
+                    VariableEditor<int>(
                       value: _intValue,
                       onChanged: (num value) => setState(() {
                         _intValue = value.toInt();
@@ -246,7 +246,7 @@ class _ComponentsPageState extends ConsumerState<ComponentsPage> {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const Gap(4),
-                    VariableEditor(
+                    VariableEditor<double>(
                       value: _doubleValue,
                       onChanged: (num value) => setState(() {
                         _doubleValue = value.toDouble();
