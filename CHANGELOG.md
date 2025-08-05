@@ -1,3 +1,13 @@
+## 0.0.6
+* Upgrade dependencies
+* Add boolean variable editor
+* Add `ContentBoxButton`
+* Update `ExceptionDialog`
+* Improve item reordering in `ListEditDialog<T>`
+* Fix bottom navigation bar height in `AppNavigation`
+* Make `NavigationSideRail` Gracefully handle unknown routes
+* Improve theme brightness handling
+
 ## 0.0.5
 * Fixes for Flutter web
 
