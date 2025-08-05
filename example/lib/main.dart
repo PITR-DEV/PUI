@@ -1,5 +1,6 @@
 import 'package:example/providers/noise.dart';
 import 'package:example/providers/pui.dart';
+import 'package:example/providers/theme.dart';
 import 'package:example/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,7 @@ class ExampleApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final puiEnabled = ref.watch(providerPuiEnabled);
 
-    var theme = stockMaterialTheme();
+    var theme = stockMaterialTheme(ref);
     if (puiEnabled) theme = theme.applyPUI();
 
     return MaterialApp.router(
@@ -49,11 +50,12 @@ class ExampleApp extends ConsumerWidget {
     );
   }
 
-  ThemeData stockMaterialTheme() {
+  ThemeData stockMaterialTheme(WidgetRef ref) {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.purple,
-        brightness: Brightness.dark,
+        brightness:
+            ref.watch(providerDarkMode) ? Brightness.dark : Brightness.light,
       ),
     );
   }

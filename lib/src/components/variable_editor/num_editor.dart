@@ -41,13 +41,19 @@ class _NumEditorState<T extends num> extends State<NumEditor<T>> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
     final typeColor = getTypeColor();
-    final backgroundColor = HSLColor.fromColor(typeColor)
-        .withLightness(_pressedDown ? 0.3 : 0.2)
+
+    var isLight = Theme.of(context).brightness == Brightness.light;
+
+    var color = HSLColor.fromColor(typeColor);
+    color = isLight
+        ? color.withLightness(_pressedDown ? 0.95 : 0.85)
+        : color.withLightness(_pressedDown ? 0.3 : 0.2);
+
+    final backgroundColor = color
         .toColor()
         .harmonizeWith(colorScheme.primary)
-        .withOpacity(_pressedDown ? 1 : 0.75);
+        .withAlpha(_pressedDown ? 255 : 190);
     final foregroundColor = typeColor.harmonizeWith(colorScheme.primary);
 
     final typeLetter = getTypeLetter();
@@ -109,7 +115,7 @@ class _NumEditorState<T extends num> extends State<NumEditor<T>> {
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
-                  color: typeColor.withOpacity(_pressedDown ? 1 : 0.5),
+                  color: typeColor.withAlpha(_pressedDown ? 255 : 127),
                   width: 1,
                 ),
               ),

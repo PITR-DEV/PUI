@@ -15,7 +15,7 @@ class _HiddenPageState extends State<HiddenPage> {
         title: const Text('Hidden Page'),
       ),
       body: const Center(
-        child: Text('Boo!, you found me!'),
+        child: Text('Boo! You found me!'),
       ),
     );
   }

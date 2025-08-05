@@ -9,11 +9,14 @@ class AppNavigation extends StatefulWidget {
     required this.routes,
     required this.routerState,
     required this.child,
+    this.railActionButton,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation = FloatingActionButtonLocation.endFloat,
     this.appBar,
     this.showAppBar = true,
     this.drawer,
     this.endDrawer,
-    this.desktopRailBottomItems,
+    this.railBottomItems,
     this.bottomBar,
     this.bottomBarHeight = 32,
     this.showBottomBar = true,
@@ -25,13 +28,18 @@ class AppNavigation extends StatefulWidget {
 
   final Widget child;
 
+  final Widget? railActionButton;
+
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation floatingActionButtonLocation;
+
   final Widget? appBar;
   final bool showAppBar;
 
   final Widget? drawer;
   final Widget? endDrawer;
 
-  final List<Widget>? desktopRailBottomItems;
+  final List<Widget>? railBottomItems;
 
   final Widget? bottomBar;
   final double bottomBarHeight;
@@ -52,16 +60,8 @@ class _AppPageState extends State<AppNavigation> {
     final showAppbar = widget.appBar != null && widget.showAppBar;
 
     final colorScheme = Theme.of(context).colorScheme;
-    final darkerColor = Color.lerp(colorScheme.background, Colors.black, 0.15);
-    final subPageTheme = Theme.of(context).copyWith(
-      scaffoldBackgroundColor: darkerColor,
-      appBarTheme: Theme.of(context).appBarTheme.copyWith(
-            backgroundColor: darkerColor,
-          ),
-    );
 
-    final borderColor =
-        widget.borderColor ?? colorScheme.outline.withOpacity(0.2);
+    final borderColor = widget.borderColor ?? colorScheme.outline.withAlpha(60);
 
     final showBottomBar = widget.showBottomBar && widget.bottomBar != null;
 
@@ -70,16 +70,21 @@ class _AppPageState extends State<AppNavigation> {
     const animationCurve = Curves.linear;
 
     return Material(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         key: _scaffoldKey,
+        floatingActionButton: widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
+        drawer: widget.drawer,
         endDrawer: widget.endDrawer,
         bottomNavigationBar: isMobileLayout
             ? AnimatedContainer(
                 duration: animationDuration,
                 curve: animationCurve,
-                height: showAppbar ? kToolbarHeight * 1.15 : 0,
+                height: showAppbar
+                    ? kBottomNavigationBarHeight + kTextTabBarHeight
+                    : 0,
                 child: MobileNavigationBar(
                   routerState: widget.routerState,
                   routes: widget.routes,
@@ -101,6 +106,11 @@ class _AppPageState extends State<AppNavigation> {
                     if (!isMobileLayout)
                       Column(
                         children: [
+                          if (widget.railActionButton != null)
+                            Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: widget.railActionButton,
+                            ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 21),
@@ -110,9 +120,8 @@ class _AppPageState extends State<AppNavigation> {
                               ),
                             ),
                           ),
-                          if (widget.desktopRailBottomItems != null)
-                            for (final item in widget.desktopRailBottomItems!)
-                              item,
+                          if (widget.railBottomItems != null)
+                            for (final item in widget.railBottomItems!) item,
                         ],
                       ),
                     Expanded(
@@ -127,7 +136,7 @@ class _AppPageState extends State<AppNavigation> {
                                     left: isMobileLayout ? 0 : 1,
                                   ),
                                   child: Theme(
-                                    data: subPageTheme,
+                                    data: Theme.of(context),
                                     child: widget.child,
                                   )
                                       .animate(

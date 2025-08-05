@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:pui/pui.dart';
 
 class ExceptionDialog extends StatelessWidget {
   const ExceptionDialog(
@@ -11,8 +12,7 @@ class ExceptionDialog extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (context) => ExceptionDialog(exception: exception),
-      barrierColor:
-          Color.lerp(Colors.black, Colors.red, 0.05)!.withOpacity(0.9),
+      barrierColor: Color.lerp(Colors.black, Colors.red, 0.05)!.withAlpha(230),
     );
   }
 
@@ -24,8 +24,12 @@ class ExceptionDialog extends StatelessWidget {
         title: Text(title),
         icon: const Icon(Symbols.error),
         scrollable: true,
-        content: Column(
-          children: buildContent(),
+        content: ContentBox(
+          padding: const EdgeInsets.all(12),
+          elevation: -4,
+          child: Column(
+            children: buildContent(),
+          ),
         ),
         actions: [
           FilledButton(
@@ -43,7 +47,9 @@ class ExceptionDialog extends StatelessWidget {
     final content = <Widget>[];
 
     if (exception != null) {
-      content.add(SelectableText('Exception: $exception'));
+      var text = exception.toString();
+
+      content.add(SelectableText(text));
     }
 
     return content;

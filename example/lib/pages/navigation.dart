@@ -32,6 +32,20 @@ class _NavigationPageState extends ConsumerState<NavigationPage> {
           ),
           const Gap(16),
           Text(
+            'Action Button',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const Gap(8),
+          ListTile(
+            leading: Switch(
+              value: ref.watch(providerShowActionButton),
+              onChanged: (value) {
+                ref.read(providerShowActionButton.notifier).state = value;
+              },
+            ),
+          ),
+          divide,
+          Text(
             'App Bar',
             style: Theme.of(context).textTheme.headlineSmall,
           ),

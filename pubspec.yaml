@@ -1,6 +1,6 @@
 name: pui
-description: "PITR's Flutter UI Theme"
-version: 0.0.5
+description: "A minimal Material 3-based theme and components for Flutter, developed by PITR."
+version: 0.0.6
 homepage: https://github.com/PITR-DEV/PUI
 
 environment:
@@ -8,21 +8,21 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  dynamic_color: ^1.7.0
-  fast_immutable_collections: ^10.1.2
+  dynamic_color: ^1.8.1
+  fast_immutable_collections: ^11.0.4
   flutter:
     sdk: flutter
-  flutter_animate: ^4.5.0
+  flutter_animate: ^4.5.2
   gap: ^3.0.1
-  go_router: ^13.2.0
+  go_router: 16.1.0
   layout: ^1.0.5
-  material_symbols_icons: ^4.2719.3
+  material_symbols_icons: ^4.2858.1
   open_simplex_2: ^0.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^6.0.0
 
 flutter:
   fonts:

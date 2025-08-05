@@ -19,5 +19,8 @@ export 'src/components/indicators/spinner.dart';
 export 'src/components/indicators/ticker.dart';
 
 export 'src/components/variable_editor/variable_editor.dart';
+export 'src/components/variable_editor/bool_editor.dart';
+export 'src/components/variable_editor/num_editor.dart';
+export 'src/components/variable_editor/string_editor.dart';
 
 export 'src/pages/four_oh_four.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pui/src/components/variable_editor/bool_editor.dart';
 import 'package:pui/src/components/variable_editor/num_editor.dart';
 import 'package:pui/src/components/variable_editor/string_editor.dart';
 
@@ -23,6 +24,10 @@ class VariableEditor<T> extends StatelessWidget {
       return NumEditor<double>(
           value: value as double,
           onChanged: onChanged as ValueChanged<double>?);
+    }
+    if (T == bool) {
+      return BoolEditor(
+          value: value as bool, onChanged: onChanged as ValueChanged<bool>?);
     }
 
     return fallback();

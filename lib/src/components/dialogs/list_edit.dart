@@ -25,21 +25,24 @@ class ListEditDialog<T> extends StatefulWidget {
 class _ListEditDialogState<T> extends State<ListEditDialog> {
   late final TextEditingController _controller;
 
-  late IList<T> value;
+  late IList<T> _value;
+  int _reorderIncrement = 0;
+
+  static const int _reorderMultiplier = 1000000;
 
   @override
   void initState() {
     super.initState();
 
     if (widget.defaultValue is IList<T>) {
-      value = widget.defaultValue as IList<T>;
+      _value = widget.defaultValue as IList<T>;
     } else {
-      value = widget.defaultValue == null
+      _value = widget.defaultValue == null
           ? IList<T>()
           : IList<T>(widget.defaultValue as Iterable<T>);
     }
 
-    _controller = TextEditingController(text: value.length.toString());
+    _controller = TextEditingController(text: _value.length.toString());
   }
 
   @override
@@ -49,8 +52,8 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    if (value.length != int.tryParse(_controller.text)) {
-      _controller.text = value.length.toString();
+    if (_value.length != int.tryParse(_controller.text)) {
+      _controller.text = _value.length.toString();
     }
 
     return AlertDialog(
@@ -73,7 +76,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
                 FilledButton.tonalIcon(
                   onPressed: () {
                     setState(() {
-                      value = value.add(widget.defaultItemValue as T);
+                      _value = _value.add(widget.defaultItemValue as T);
                     });
                   },
                   icon: const Icon(Symbols.add),
@@ -93,16 +96,16 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
                           _controller.text = length.toString();
                         }
                       }
-                      if (length > value.length) {
+                      if (length > _value.length) {
                         // add values
-                        value = value.addAll(
+                        _value = _value.addAll(
                           List<T>.generate(
-                            length - value.length,
+                            length - _value.length,
                             (index) => widget.defaultItemValue as T,
                           ).toIList(),
                         );
-                      } else if (length < value.length) {
-                        value = value.take(length).toIList();
+                      } else if (length < _value.length) {
+                        _value = _value.take(length).toIList();
                       }
 
                       setState(() {});
@@ -125,8 +128,8 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
                 height: 1,
               ),
             ),
-            if (value.isEmpty) noItems(),
-            if (value.isNotEmpty)
+            if (_value.isEmpty) noItems(),
+            if (_value.isNotEmpty)
               Flexible(
                 child: builtList(),
               )
@@ -142,13 +145,13 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
         ),
         FilledButton(
           onPressed: () {
-            Navigator.of(context).pop(value);
+            Navigator.of(context).pop(_value);
           },
           style: Theme.of(context).filledButtonTheme.style?.copyWith(
-                minimumSize: MaterialStateProperty.all(
+                minimumSize: WidgetStateProperty.all(
                   const Size(20, 40),
                 ),
-                padding: MaterialStateProperty.all(
+                padding: WidgetStateProperty.all(
                   const EdgeInsets.symmetric(horizontal: 14),
                 ),
               ),
@@ -182,7 +185,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
       width: 400,
       child: ReorderableListView.builder(
         buildDefaultDragHandles: false,
-        itemCount: value.length,
+        itemCount: _value.length,
         proxyDecorator: (child, index, animation) {
           return Material(
             color: Colors.transparent,
@@ -190,7 +193,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
               fit: StackFit.passthrough,
               children: [
                 child,
-                buildItem(index, value.elementAt(index), proxy: true)
+                buildItem(index, _value.elementAt(index), proxy: true)
                     .animate()
                     .fadeIn(duration: 250.ms, curve: Curves.easeOutCubic),
               ],
@@ -198,22 +201,24 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
           );
         },
         itemBuilder: (context, i) {
-          final item = value.elementAt(i);
+          final item = _value.elementAt(i);
 
           return buildItem(i, item);
         },
         onReorder: (oldIndex, newIndex) {
-          final targetItem = value.elementAt(oldIndex);
+          final targetItem = _value.elementAt(oldIndex);
           setState(() {
             if (oldIndex < newIndex) {
               // If moving down within the list
-              value = value.removeAt(oldIndex);
-              value = value.insert(newIndex - 1, targetItem);
+              _value = _value.removeAt(oldIndex);
+              _value = _value.insert(newIndex - 1, targetItem);
             } else {
               // If moving up within the list
-              value = value.removeAt(oldIndex);
-              value = value.insert(newIndex, targetItem);
+              _value = _value.removeAt(oldIndex);
+              _value = _value.insert(newIndex, targetItem);
             }
+
+            _reorderIncrement++;
           });
         },
       ),
@@ -223,12 +228,14 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
   Widget buildItem(int index, T item, {bool proxy = false}) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    final uniqueKey = index + _reorderIncrement * _reorderMultiplier;
+
     return Container(
-      key: ValueKey(index),
+      key: ValueKey(uniqueKey),
       decoration: BoxDecoration(
         color: proxy ? colorScheme.secondaryContainer : colorScheme.surface,
         border: Border.all(
-          color: colorScheme.secondary.withOpacity(0.25),
+          color: colorScheme.secondary.withAlpha(60),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(4),
@@ -245,7 +252,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
                 child: Icon(
                   Symbols.drag_indicator,
                   weight: 300,
-                  color: colorScheme.secondary.withOpacity(0.8),
+                  color: colorScheme.secondary.withAlpha(200),
                 ),
               ),
             ),
@@ -256,7 +263,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
                 onChanged: (dynamic value) {
                   setState(
                     () {
-                      this.value = this.value.replace(index, value as T);
+                      this._value = this._value.replace(index, value as T);
                     },
                   );
                 },
@@ -265,7 +272,7 @@ class _ListEditDialogState<T> extends State<ListEditDialog> {
             IconButton(
               onPressed: () {
                 setState(() {
-                  value = value.removeAt(index);
+                  _value = _value.removeAt(index);
                 });
               },
               icon: Icon(

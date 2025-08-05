@@ -69,6 +69,9 @@ class NavigationSideRail extends StatelessWidget {
         )
         .toList();
 
+    var selectedIndex =
+        filteredRoutes.indexWhere((element) => _isMatch(location, element));
+
     if (destinations.length < 2) {
       destinations = [
         ...destinations,
@@ -77,12 +80,16 @@ class NavigationSideRail extends StatelessWidget {
       ];
     }
 
+    if (selectedIndex == -1) {
+      destinations.add(blankDestination);
+      selectedIndex = destinations.length - 1;
+    }
+
     return NavigationRail(
       labelType: NavigationRailLabelType.selected,
       leading: buildLeading(),
       destinations: destinations,
-      selectedIndex:
-          filteredRoutes.indexWhere((element) => _isMatch(location, element)),
+      selectedIndex: selectedIndex,
       onDestinationSelected: (index) {
         context.go(filteredRoutes[index].routeStart);
       },

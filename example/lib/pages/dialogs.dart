@@ -171,6 +171,23 @@ class _DialogsPageState extends ConsumerState<DialogsPage> {
                   );
                 },
               ),
+              const Gap(4),
+              FilledButton.tonal(
+                child: const Text('Show Boolean List'),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const ListEditDialog<bool>(
+                      defaultValue: [
+                        false,
+                        false,
+                        true,
+                      ],
+                      defaultItemValue: false,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ],

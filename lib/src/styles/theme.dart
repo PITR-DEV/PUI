@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// extension
 extension ThemePUI on ThemeData {
   ThemeData applyPUI({
     TargetPlatform? overrideThemePlatform = TargetPlatform.windows,
@@ -12,7 +11,7 @@ extension ThemePUI on ThemeData {
       fontWeight: FontWeight.w500,
     );
 
-    return copyWith(
+    var updatedTheme = copyWith(
       colorScheme: colorScheme,
       platform: overrideThemePlatform,
       textTheme: textTheme.copyWith(
@@ -37,32 +36,41 @@ extension ThemePUI on ThemeData {
           fontSize: 48,
           fontWeight: FontWeight.w600,
         ),
+        bodySmall: genericTextStyle.copyWith(
+          fontSize: 12,
+        ),
+        bodyMedium: genericTextStyle.copyWith(
+          fontSize: 15,
+        ),
+        bodyLarge: genericTextStyle.copyWith(
+          fontSize: 17,
+        ),
       ),
       inputDecorationTheme: inputDecorationTheme.copyWith(
         filled: true,
-        fillColor: colorScheme.shadow.withOpacity(0.2),
+        fillColor: colorScheme.shadow.withValues(alpha: 0.2),
         border: const OutlineInputBorder(),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: colorScheme.onBackground.withOpacity(0.2),
+            color: colorScheme.onSurface.withValues(alpha: 0.2),
           ),
         ),
         hintStyle: TextStyle(
-          color: colorScheme.onBackground.withOpacity(0.35),
+          color: colorScheme.onSurface.withValues(alpha: 0.35),
           fontWeight: FontWeight.w400,
         ),
         labelStyle: genericTextStyle.copyWith(
-          color: colorScheme.onBackground.withOpacity(0.9),
+          color: colorScheme.onSurface.withValues(alpha: 0.9),
           fontWeight: FontWeight.w100,
           fontSize: 15,
         ),
       ),
       dialogTheme: dialogTheme.copyWith(
-        backgroundColor: colorScheme.background,
+        backgroundColor: colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
           side: BorderSide(
-            color: colorScheme.outline.withOpacity(0.6),
+            color: colorScheme.outline.withValues(alpha: 0.6),
           ),
         ),
         titleTextStyle: TextStyle(
@@ -77,11 +85,11 @@ extension ThemePUI on ThemeData {
       ),
       textButtonTheme: TextButtonThemeData(
         style: (filledButtonTheme.style ?? const ButtonStyle()).copyWith(
-          shape: MaterialStatePropertyAll<OutlinedBorder>(
+          shape: WidgetStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
               side: BorderSide(
-                color: colorScheme.outline.withOpacity(0.2),
+                color: colorScheme.outline.withValues(alpha: 0.2),
                 strokeAlign: -1,
                 width: 1,
               ),
@@ -91,11 +99,11 @@ extension ThemePUI on ThemeData {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: (filledButtonTheme.style ?? const ButtonStyle()).copyWith(
-          shape: MaterialStatePropertyAll<OutlinedBorder>(
+          shape: WidgetStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
               side: BorderSide(
-                color: colorScheme.secondary.withOpacity(0.4),
+                color: colorScheme.secondary.withValues(alpha: 0.4),
                 strokeAlign: -1,
                 width: 1,
               ),
@@ -105,30 +113,30 @@ extension ThemePUI on ThemeData {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: (outlinedButtonTheme.style ?? const ButtonStyle()).copyWith(
-          shape: MaterialStatePropertyAll<OutlinedBorder>(
+          shape: WidgetStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
               side: BorderSide(
-                color: colorScheme.secondary.withOpacity(0.7),
+                color: colorScheme.secondary.withValues(alpha: .7),
                 strokeAlign: -1,
                 width: 1,
               ),
             ),
           ),
-          foregroundColor: MaterialStatePropertyAll<Color>(
+          foregroundColor: WidgetStatePropertyAll<Color>(
             colorScheme.onSecondaryContainer,
           ),
         ),
       ),
       appBarTheme: appBarTheme.copyWith(
-        backgroundColor: colorScheme.background,
-        foregroundColor: colorScheme.onBackground,
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
         titleTextStyle: genericTextStyle.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.w700,
         ),
         iconTheme: iconTheme.copyWith(
-          color: colorScheme.onBackground,
+          color: colorScheme.onSurface,
         ),
       ),
       sliderTheme: sliderTheme.copyWith(
@@ -136,6 +144,31 @@ extension ThemePUI on ThemeData {
         trackHeight: 5,
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
       ),
+    );
+
+    if (updatedTheme.brightness == Brightness.light) {
+      updatedTheme = _applyLightTheme(updatedTheme);
+    } else {
+      updatedTheme = _applyDarkTheme(updatedTheme);
+    }
+
+    return updatedTheme;
+  }
+
+  ThemeData _applyLightTheme(ThemeData theme) {
+    return theme.copyWith(
+      colorScheme: theme.colorScheme.copyWith(
+        outline: theme.colorScheme.outline.withAlpha(191),
+      ),
+    );
+  }
+
+  ThemeData _applyDarkTheme(ThemeData theme) {
+    final darkerColor = Color.lerp(colorScheme.surface, Colors.black, 0.15);
+
+    return theme.copyWith(
+      scaffoldBackgroundColor: darkerColor,
+      colorScheme: theme.colorScheme.copyWith(),
     );
   }
 }

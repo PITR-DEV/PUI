@@ -1,9 +1,11 @@
 import 'package:example/providers/navigation.dart';
 import 'package:example/providers/pui.dart';
+import 'package:example/providers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:pui/pui.dart';
 
 class AppPage extends ConsumerStatefulWidget {
@@ -30,6 +32,14 @@ class _AppPageState extends ConsumerState<AppPage> {
     return AppNavigation(
       routerState: widget.state,
       routes: widget.navigationTabs,
+      railActionButton: ref.watch(providerShowActionButton)
+          ? FloatingActionButton(
+              onPressed: () {
+                ref.read(providerShowActionButton.notifier).state = false;
+              },
+              child: const Icon(Icons.visibility_off),
+            )
+          : null,
       appBar: AppBar(
         title: const Text.rich(
           TextSpan(
@@ -45,6 +55,19 @@ class _AppPageState extends ConsumerState<AppPage> {
                 ref.read(providerPuiEnabled.notifier).state = value,
           ),
           const Gap(4),
+          const VerticalDivider(),
+          IconButton(
+            onPressed: () {
+              ref.read(providerDarkMode.notifier).state =
+                  !ref.read(providerDarkMode);
+            },
+            icon: Icon(
+              ref.watch(providerDarkMode)
+                  ? Symbols.dark_mode
+                  : Symbols.light_mode,
+            ),
+          ),
+          const Gap(8),
         ],
       ),
       showAppBar: ref.watch(providerShowAppBar),
